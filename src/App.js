@@ -1,3 +1,5 @@
+import "./styles.css";
+
 function App() {
   return (
     <div className="calculator-grid">
@@ -19,7 +21,7 @@ function App() {
       <button>1</button>
       <button>2</button>
       <button>3</button>
-      <button>-</button>
+      <button>—</button>
       <button>0</button>
       <button>.</button>
       <button className="span-two">=</button>
