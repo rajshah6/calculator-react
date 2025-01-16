@@ -133,7 +133,7 @@ function formatNumber(number) {
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
     reducer,
-    {}
+    {currentOperand: "0"}
   );
 
   return (
