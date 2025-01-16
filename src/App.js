@@ -14,6 +14,13 @@ export const actions = {
 function reducer(state, { type, payload }) {
   switch (type) {
     case actions.ADD_DIGIT:
+      if (state.overwrite) {
+        return {
+          ...state,
+          currentOperand: payload.digit,
+          overwrite: false,
+        };
+      }
       if (payload.digit === "0" && state.currentOperand === "0") return state;
 
       if (
@@ -58,6 +65,36 @@ function reducer(state, { type, payload }) {
 
     case actions.ALL_CLEAR:
       return {};
+
+    case actions.DELETE:
+      if (state.currentOperand == null) return state;
+      if (state.currentOperand.length === 1) return { ...state, currentOperand: null };
+
+      if (state.overwrite) 
+        return {
+        ...state,
+        currentOperand: null,
+      };
+
+      return {
+        ...state,
+        currentOperand: state.currentOperand.slice(0, -1),
+      };
+
+    case actions.EVAL:
+      if (
+        state.operation == null ||
+        state.currentOperand == null ||
+        state.previousOperand == null
+      )
+        return state;
+
+      return {
+        overwrite: true,
+        previousOperand: null,
+        currentOperand: evaluate(state),
+        operation: null,
+      };
   }
 }
 
@@ -103,7 +140,7 @@ function App() {
         AC
       </button>
 
-      <button>DEL</button>
+      <button onClick={() => dispatch({ type: actions.DELETE})}>DEL</button>
       <OperationButton operation="÷" dispatch={dispatch} />
       <DigitButton digit="7" dispatch={dispatch} />
       <DigitButton digit="8" dispatch={dispatch} />
@@ -119,7 +156,12 @@ function App() {
       <OperationButton operation="–" dispatch={dispatch} />
       <DigitButton digit="." dispatch={dispatch} />
       <DigitButton digit="0" dispatch={dispatch} />
-      <button className="span-two">=</button>
+      <button
+        className="span-two"
+        onClick={() => dispatch({ type: actions.EVAL })}
+      >
+        =
+      </button>
     </div>
   );
 }
