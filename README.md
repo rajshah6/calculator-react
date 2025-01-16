@@ -1,7 +1,7 @@
-# Basic Calculator App
+# Basic Calculator
 
 ## Overview
-This Basic Calculator App is a user-friendly application designed to perform arithmetic operations including addition, subtraction, multiplication, and division. 
+This basic calculator app is a user-friendly application designed to perform arithmetic operations including addition, subtraction, multiplication, and division. 
 
 ## Features
 - **Simple and Intuitive Interface**: Easy-to-use layout for quick calculations.
