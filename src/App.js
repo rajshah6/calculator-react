@@ -33,15 +33,51 @@ function reducer(state, { type, payload }) {
       if (state.currentOperand == null && state.previousOperand == null)
         return state;
 
+      if (state.currentOperand == null) {
+        return {
+          ...state,
+          operation: payload.operation,
+        };
+      }
+
+      if (state.previousOperand == null) {
+        return {
+          ...state,
+          operation: payload.operation,
+          previousOperand: state.currentOperand,
+          currentOperand: null,
+        };
+      }
+
       return {
         ...state,
         operation: payload.operation,
-        previousOperand: state.currentOperand,
+        previousOperand: evaluate(state),
         currentOperand: null,
       };
 
     case actions.ALL_CLEAR:
       return {};
+  }
+}
+
+function evaluate({ currentOperand, previousOperand, operation }) {
+  const current = parseFloat(currentOperand);
+  const previous = parseFloat(previousOperand);
+
+  if (isNaN(current) || isNaN(previous)) return "";
+
+  switch (operation) {
+    case "+":
+      return (previous + current).toString();
+    case "–":
+      return (previous - current).toString();
+    case "×":
+      return (previous * current).toString();
+    case "÷":
+      return (previous / current).toString();
+    default:
+      return;
   }
 }
 
