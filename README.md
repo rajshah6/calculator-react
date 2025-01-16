@@ -13,7 +13,7 @@ This basic calculator app is a user-friendly application designed to perform ari
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/rajshah6/calculator-react.git
+   https://github.com/rajshah6/calculator-react.git
    cd rajshah6.github.io
    ```
 
