@@ -68,13 +68,14 @@ function reducer(state, { type, payload }) {
 
     case actions.DELETE:
       if (state.currentOperand == null) return state;
-      if (state.currentOperand.length === 1) return { ...state, currentOperand: null };
+      if (state.currentOperand.length === 1)
+        return { ...state, currentOperand: null };
 
-      if (state.overwrite) 
+      if (state.overwrite)
         return {
-        ...state,
-        currentOperand: null,
-      };
+          ...state,
+          currentOperand: null,
+        };
 
       return {
         ...state,
@@ -118,6 +119,17 @@ function evaluate({ currentOperand, previousOperand, operation }) {
   }
 }
 
+const INT_FORMATTER = new Intl.NumberFormat("en-US", {
+  maximumFractionDigits: 0,
+});
+
+function formatNumber(number) {
+  if (number == null) return "";
+  const [integer, decimal] = number.split(".");
+  if (decimal == null) return INT_FORMATTER.format(integer);
+  return `${INT_FORMATTER.format(integer)}.${decimal}`;
+}
+
 function App() {
   const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
     reducer,
@@ -128,9 +140,9 @@ function App() {
     <div className="calculator-grid">
       <div className="output">
         <div className="previous-operand">
-          {previousOperand} {operation}
+          {formatNumber(previousOperand)} {operation}
         </div>
-        <div className="current-operand">{currentOperand}</div>
+        <div className="current-operand">{formatNumber(currentOperand)}</div>
       </div>
 
       <button
@@ -140,7 +152,7 @@ function App() {
         AC
       </button>
 
-      <button onClick={() => dispatch({ type: actions.DELETE})}>DEL</button>
+      <button onClick={() => dispatch({ type: actions.DELETE })}>DEL</button>
       <OperationButton operation="÷" dispatch={dispatch} />
       <DigitButton digit="7" dispatch={dispatch} />
       <DigitButton digit="8" dispatch={dispatch} />
